@@ -72,9 +72,9 @@ public class AI1 : MonoBehaviour {
 			_stun = true;
 			_stunTime = 1;
 			PlayerController pc = (PlayerController)objectHit.gameObject.GetComponent(typeof(PlayerController));
-			pc.TakeDamage(0.1f);
-            objectHit.rigidbody.AddForce(Vector2.right*10);
-                
+
+			Vector2 dir = ( objectHit.transform.position - this.transform.position).normalized;
+			pc.TakeDamage(0.1f,dir);    
             
 			//objectHit.rigidbody.velocity
 			//objectHit.rigidbody.velocity = Vector2.zero;

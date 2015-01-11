@@ -8,17 +8,32 @@ public class PlayerController : MonoBehaviour
 	public float Health { get; private set; }
 	public bool IsDead { get; private set; }
 	private GUIBarScript healthBar;
+	bool hit = false;
+	Vector2 hitDir = Vector2.zero;
+	int hits = 0;
 
 	void Awake()
 	{
 		Health = MaxHealth;
 		GameObject go = GameObject.Find("HeartsBar");
-		healthBar = (GUIBarScript)go.GetComponent(typeof(GUIBarScript));
+        healthBar = (GUIBarScript)go.GetComponent(typeof(GUIBarScript));
 	}
 
 	void Update()
 	{
 		healthBar.Value = Health;
+		if(hit == true){
+			transform.Translate(hitDir * Speed);
+			hits++;
+			if (hits > 12){
+				hits=0;
+				hit=false;
+
+			}
+			else{
+				return;
+			}
+		}
 		if(Input.GetKey(KeyCode.A)) //left
 		{
 			transform.Translate(-Vector2.right * Speed);
@@ -38,10 +53,11 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	public void TakeDamage(float damage)
+	public void TakeDamage(float damage, Vector2 dir)
 	{
 		Health -= damage;
-
+		hit = true;
+		hitDir = dir;
 		if(Health <= 0)
 		{
 
